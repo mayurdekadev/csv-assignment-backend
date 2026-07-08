@@ -1,3 +1,5 @@
+import { processImport } from "../services/import.service.js";
+
 export const uploadCSV = async (req, res) => {
     try {
         if (!req.file) {
@@ -7,16 +9,12 @@ export const uploadCSV = async (req, res) => {
             });
         }
 
-        console.log("File ",req.file);
+        const result = await processImport(req.file.buffer);
         return res.status(200).json({
             success: true,
-            message: "CSV uploaded successfully",
-            file: {
-                originalName: req.file.originalname,
-                mimeType: req.file.mimetype,
-                size: req.file.size,
-            },  
+            ...result,
         });
+
     } catch (error) {
         return res.status(500).json({
             success: false,
