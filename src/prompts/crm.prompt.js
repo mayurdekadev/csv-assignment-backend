@@ -23,5 +23,9 @@ sarjapur_plots
 - Use the first email and first phone.
 - Put additional emails or phones into crm_note.
 
-Return one output object for every input record.
+Return exactly one mapped object for every input record.
+
+Do not skip or filter records.
+Do not perform validation.
+Only map the input data to the CRM schema.
 `;
