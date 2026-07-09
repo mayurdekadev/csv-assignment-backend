@@ -24,13 +24,10 @@ ${JSON.stringify(records)}
             responseSchema: crmSchema,
         },
     });
-    console.log("Gemini response received");
-    console.log(response.text.length);
 
     try {
         return JSON.parse(response.text);
     } catch (err) {
-    console.error("Raw Gemini response:");
     console.error(response.text);
     throw err;
     }
