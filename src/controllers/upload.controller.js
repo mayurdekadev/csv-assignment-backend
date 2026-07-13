@@ -10,15 +10,30 @@ export const uploadCSV = async (req, res) => {
         }
 
         const result = await processImport(req.file.buffer);
+
         return res.status(200).json({
             success: true,
             ...result,
         });
 
     } catch (error) {
+        console.error(error);
+        
+        if (
+            error.status === 503 ||
+            error.code === 503 ||
+            error.message?.includes("UNAVAILABLE")
+        ) {
+            return res.status(503).json({
+                success: false,
+                message:
+                    "The AI service is currently busy. Please try again in a few moments.",
+            });
+        }
+
         return res.status(500).json({
             success: false,
-            message: error.message,
+            message: error.message || "Internal Server Error",
         });
     }
 };
